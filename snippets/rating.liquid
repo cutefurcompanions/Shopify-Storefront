@@ -1,0 +1,11 @@
+{% liquid
+  assign rating_data = product.metafields.reviews.rating.value
+  assign rating = rating_data.rating | default: product.metafields.cfc.rating.value
+  assign scale = rating_data.scale_max | default: 5
+  assign count = product.metafields.reviews.rating_count.value | default: product.metafields.cfc.review_count.value | default: 0
+%}
+{% if rating != blank and count > 0 %}
+  <div class="cfc-rating" aria-label="{{ rating | escape }} out of {{ scale }} stars, {{ count }} reviews">
+    <span aria-hidden="true">★</span><span>{{ rating | round: 1 }} / {{ scale }} ({{ count }})</span>
+  </div>
+{% endif %}

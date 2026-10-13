@@ -1,0 +1,242 @@
+[
+  {
+    "name": "Brand",
+    "settings": [
+      {
+        "type": "text",
+        "id": "brand_name",
+        "label": "Brand name",
+        "default": "CuteFurCompanions"
+      },
+      {
+        "type": "color",
+        "id": "brand_primary",
+        "label": "Brand primary",
+        "default": "#4879BD"
+      },
+      {
+        "type": "color",
+        "id": "brand_background",
+        "label": "Brand background",
+        "default": "#F4F7FF"
+      },
+      {
+        "type": "color",
+        "id": "brand_surface",
+        "label": "Brand surface",
+        "default": "#E8EEFF"
+      },
+      {
+        "type": "color",
+        "id": "brand_text",
+        "label": "Brand text",
+        "default": "#010C30"
+      },
+      {
+        "type": "color",
+        "id": "brand_muted",
+        "label": "Brand muted text",
+        "default": "#526080"
+      },
+      {
+        "type": "color",
+        "id": "brand_border",
+        "label": "Brand border",
+        "default": "#D1E1FF"
+      },
+      {
+        "type": "color",
+        "id": "brand_accent",
+        "label": "Brand accent",
+        "default": "#79EBEE"
+      },
+      {
+        "type": "select",
+        "id": "default_collection_theme",
+        "label": "Default collection theme",
+        "options": [
+          {
+            "value": "arctic",
+            "label": "Arctic"
+          },
+          {
+            "value": "antarctic",
+            "label": "Antarctic"
+          },
+          {
+            "value": "sahara",
+            "label": "Sahara"
+          }
+        ],
+        "default": "arctic"
+      }
+    ]
+  },
+  {
+    "name": "Arctic Theme Defaults",
+    "settings": [
+      {
+        "type": "color",
+        "id": "arctic_primary",
+        "label": "Primary",
+        "default": "#4879BD"
+      },
+      {
+        "type": "color",
+        "id": "arctic_background",
+        "label": "Background",
+        "default": "#F4F7FF"
+      },
+      {
+        "type": "color",
+        "id": "arctic_surface",
+        "label": "Surface",
+        "default": "#E8EEFF"
+      },
+      {
+        "type": "color",
+        "id": "arctic_accent",
+        "label": "Accent",
+        "default": "#79EBEE"
+      },
+      {
+        "type": "color",
+        "id": "arctic_text",
+        "label": "Text",
+        "default": "#010C30"
+      },
+      {
+        "type": "color",
+        "id": "arctic_muted",
+        "label": "Muted text",
+        "default": "#526080"
+      }
+    ]
+  },
+  {
+    "name": "AI integrations",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "ai_enabled",
+        "label": "Enable AI shopping assistant",
+        "default": false
+      },
+      {
+        "type": "text",
+        "id": "ai_endpoint",
+        "label": "AI endpoint",
+        "info": "Same-store Shopify app proxy path, such as /apps/cfc/assistant. Never enter API keys."
+      },
+      {
+        "type": "checkbox",
+        "id": "try_on_enabled",
+        "label": "Enable AI try-on",
+        "default": false
+      },
+      {
+        "type": "text",
+        "id": "try_on_endpoint",
+        "label": "Try-on endpoint",
+        "info": "Same-store Shopify app proxy path, such as /apps/cfc/assistant. Never enter API keys."
+      },
+      {
+        "type": "image_picker",
+        "id": "ai_icon",
+        "label": "AI assistant icon"
+      },
+      {
+        "type": "url",
+        "id": "try_on_privacy_url",
+        "label": "Photo processing privacy policy",
+        "info": "Required before uploads are enabled. Explain provider, retention and deletion."
+      }
+    ]
+  },
+  {
+    "name": "SEO & social",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "social_image",
+        "label": "Social sharing image"
+      }
+    ]
+  },
+  {
+    "name": "Social links",
+    "settings": [
+      {
+        "type": "url",
+        "id": "instagram_url",
+        "label": "Instagram"
+      },
+      {
+        "type": "url",
+        "id": "pinterest_url",
+        "label": "Pinterest"
+      },
+      {
+        "type": "url",
+        "id": "youtube_url",
+        "label": "YouTube"
+      }
+    ]
+  },
+  {
+    "name": "Store pages",
+    "settings": [
+      {
+        "type": "page",
+        "id": "about_page",
+        "label": "About us"
+      },
+      {
+        "type": "page",
+        "id": "contact_page",
+        "label": "Talk to us"
+      },
+      {
+        "type": "page",
+        "id": "order_support_page",
+        "label": "Order support"
+      },
+      {
+        "type": "page",
+        "id": "returns_page",
+        "label": "Returns & exchanges"
+      }
+    ]
+  },
+  {
+    "name": "Arctic catalog",
+    "settings": [
+      {
+        "type": "collection",
+        "id": "arctic_collection",
+        "label": "Arctic collection",
+        "info": "Select the real Arctic collection. Until selected, the Arctic link opens the full catalog."
+      }
+    ]
+  },
+  {
+    "name": "Category destinations",
+    "settings": [
+      {
+        "type": "collection",
+        "id": "wildlife_collection",
+        "label": "Wildlife"
+      },
+      {
+        "type": "collection",
+        "id": "flora_collection",
+        "label": "Flora"
+      },
+      {
+        "type": "collection",
+        "id": "landscapes_collection",
+        "label": "Landscapes"
+      }
+    ]
+  }
+]

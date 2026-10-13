@@ -1,0 +1,55 @@
+{% liquid
+  assign scene = 'arctic'
+  assign subtitle = collection.metafields.cfc.theme_tagline.value
+  assign collection_name = collection.title | downcase
+  if collection_name contains 'wildlife'
+    assign scene = 'wildlife'
+    assign subtitle = subtitle | default: 'Species of the northern frontier'
+  elsif collection_name contains 'flora'
+    assign scene = 'flora'
+    assign subtitle = subtitle | default: 'Where the tundra quietly blooms'
+  elsif collection_name contains 'landscape'
+    assign scene = 'landscapes'
+    assign subtitle = subtitle | default: 'Ice, horizon and open sky'
+  endif
+  assign hero_image = section.settings.image | default: collection.image
+  assign scene_file = 'scene-' | append: scene | append: '.jpg'
+%}
+<section class="cfc-collection">
+  <div class="cfc-collection-hero">
+    {% if hero_image %}{{ hero_image | image_url: width: 2000 | image_tag: loading: 'eager', fetchpriority: 'high', widths: '750,1100,1600,2000', sizes: '100vw', alt: collection.title }}{% else %}<img src="{{ scene_file | asset_url }}" width="1600" height="800" alt="" loading="eager" fetchpriority="high">{% endif %}
+    <div class="cfc-collection-hero__overlay"></div><div class="cfc-container cfc-collection-hero__copy"><h1>{{ collection.title | escape }}</h1>{% if subtitle != blank %}<p>{{ subtitle | escape }}</p>{% endif %}</div>
+  </div>
+  <div class="cfc-container cfc-collection-body">
+    {% if collection.description != blank %}<div class="cfc-richtext cfc-collection-description">{{ collection.description }}</div>{% endif %}
+    <div class="cfc-collection-toolbar"><nav class="cfc-collection-tabs" aria-label="Categories">{% render 'menu-links', menu: section.settings.category_menu, category_labels: true %}</nav><div class="cfc-collection-controls"><span>{{ collection.products_count }} pieces</span><label for="SortBy-{{ section.id }}" class="visually-hidden">Sort products</label><select id="SortBy-{{ section.id }}" data-cfc-sort>{% assign sort_by = collection.sort_by | default: collection.default_sort_by %}{% for option in collection.sort_options %}<option value="{{ option.value | escape }}"{% if option.value == sort_by %} selected{% endif %}>{{ option.name | escape }}</option>{% endfor %}</select></div></div>
+    {% paginate collection.products by section.settings.products_per_page %}{% if collection.products_count > 0 %}<div class="cfc-product-grid">{% for product in collection.products %}{% render 'product-card', product: product %}{% endfor %}</div>{% render 'pagination', paginate: paginate %}{% else %}<div class="cfc-empty-state"><h2>Something new is taking shape.</h2><p>Pieces from this collection will appear here.</p><a class="cfc-button" href="{{ routes.all_products_collection_url }}">Explore all pieces →</a></div>{% endif %}{% endpaginate %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Collection",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Hero image override"
+    },
+    {
+      "type": "link_list",
+      "id": "category_menu",
+      "label": "Category links"
+    },
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "label": "Products per page",
+      "min": 8,
+      "max": 36,
+      "step": 4,
+      "default": 16
+    }
+  ]
+}
+{% endschema %}

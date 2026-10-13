@@ -1,0 +1,24 @@
+<section class="cfc-section cfc-custom-liquid">
+  <div class="cfc-container">
+    {{ section.settings.liquid }}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Custom Liquid",
+  "settings": [
+    {
+      "type": "liquid",
+      "id": "liquid",
+      "label": "Liquid",
+      "default": "<p>Custom content</p>"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Liquid"
+    }
+  ]
+}
+{% endschema %}

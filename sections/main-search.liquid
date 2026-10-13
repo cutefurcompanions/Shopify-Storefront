@@ -1,0 +1,40 @@
+<section class="cfc-page-section">
+  <div class="cfc-container">
+    <div class="cfc-search-heading cfc-search-panel">
+      <p class="cfc-eyebrow">Search</p>
+      <h1>{% if search.performed %}Results for “{{ search.terms | escape }}”{% else %}Find your piece{% endif %}</h1>
+      <form action="{{ routes.search_url }}" method="get" role="search" class="cfc-search-form cfc-search-form--page" data-cfc-predictive>
+        <input type="search" name="q" value="{{ search.terms | escape }}" placeholder="Try polar bear, glacier, flora…" aria-label="Search products">
+        <input type="hidden" name="type" value="product"><input type="hidden" name="options[prefix]" value="last">
+        <button class="cfc-button" type="submit">Search</button>
+      </form>
+    </div>
+
+    <div data-cfc-suggestions aria-live="polite" aria-label="Search suggestions"></div>
+    {% unless search.performed %}<nav class="cfc-search-browse" aria-label="Browse collections">{% render 'category-navigation' %}<a href="{{ routes.all_products_collection_url }}">Shop all</a></nav>{% endunless %}
+    {% if search.performed %}
+      {% paginate search.results by 24 %}
+        {% if search.results_count > 0 %}
+          <div class="cfc-product-grid">
+            {% for item in search.results %}
+              {% if item.object_type == 'product' %}
+                {% render 'product-card', product: item %}
+              {% else %}<article><h2><a href="{{ item.url }}">{{ item.title | escape }}</a></h2><p>{{ item.content | strip_html | truncate: 160 | escape }}</p></article>{% endif %}
+            {% endfor %}
+          </div>
+        {% else %}
+          <div class="cfc-empty-state">
+            <h2>No matching pieces.</h2>
+            <p>Try another animal, landscape or flora term.</p>
+          </div>
+        {% endif %}
+      {% render 'pagination', paginate: paginate %}{% endpaginate %}
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CFC — Search"
+}
+{% endschema %}

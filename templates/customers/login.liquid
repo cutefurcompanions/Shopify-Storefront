@@ -1,0 +1,9 @@
+<section class="cfc-auth"><div class="cfc-auth__inner"><header class="cfc-auth__heading"><h1>Sign in</h1><p>Welcome back to CuteFurCompanions</p></header><div class="cfc-auth__panel cfc-glass-panel">
+{% form 'customer_login', class: 'cfc-contact' %}
+{{ form.errors | default_errors }}
+<label>Email<input type="email" name="customer[email]" autocomplete="email" placeholder="your@email.com" required></label>
+<label>Password<input type="password" name="customer[password]" autocomplete="current-password" required></label>
+<button class="cfc-button" type="submit">Sign in</button>{% endform %}
+<details id="recover"><summary>Forgot your password?</summary>{% form 'recover_customer_password', class: 'cfc-contact' %}{{ form.errors | default_errors }}{% if form.posted_successfully? %}<p role="status">Check your email for password reset instructions.</p>{% endif %}<label>Email<input name="email" type="email" autocomplete="email" required></label><button class="cfc-button" type="submit">Send reset email</button>{% endform %}</details>
+<div class="cfc-auth__links"><p>New here? <a href="{{ routes.account_register_url }}">Create an account</a></p></div>
+</div></div></section>

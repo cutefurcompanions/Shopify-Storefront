@@ -1,0 +1,8 @@
+<section class="cfc-page-section"><div class="cfc-container"><header class="cfc-page-heading"><h1>{{ page.title | default: 'Returns & exchanges' | escape }}</h1><p>Everything you need to know about returning a piece.</p></header><div class="cfc-document-layout"><aside class="cfc-document-sidebar"><p class="cfc-eyebrow">Customer care</p>{% render 'service-navigation' %}</aside><div class="cfc-policy-copy cfc-richtext cfc-document-body" data-cfc-document>{% if page.content != blank %}{{ page.content }}{% elsif shop.refund_policy.body != blank %}{{ shop.refund_policy.body }}{% else %}<h2>Let’s find the right next step.</h2><p>Please contact us with your order number and the item you need help with. We’ll explain the options available for your order.</p>{% endif %}</div></div>{% assign support = settings.order_support_page | default: pages['order-support'] %}{% assign contact = settings.contact_page | default: pages['contact'] | default: pages['talk-to-us'] %}{% if support != blank or contact != blank %}<div class="cfc-glass-panel cfc-policy-help"><div><h2>Need a hand?</h2><p>Have your order number ready when you get in touch.</p></div><a class="cfc-button" href="{{ support.url | default: contact.url }}">Contact support →</a></div>{% endif %}</div></section>
+
+{% schema %}
+{
+  "name": "Returns and exchanges",
+  "settings": []
+}
+{% endschema %}

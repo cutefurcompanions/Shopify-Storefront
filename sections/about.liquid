@@ -1,0 +1,2 @@
+<section class="cfc-about cfc-brand-page cfc-about--identity" aria-label="About CuteFurCompanions"><h1 class="visually-hidden">CuteFurCompanions</h1><div class="cfc-about__art">{% if section.settings.image %}{{ section.settings.image | image_url: width: 1200 | image_tag: widths: '450,900,1200', sizes: '(min-width: 750px) 580px, 85vw', loading: 'eager', alt: shop.name }}{% else %}{% render 'brand', full: true %}{% endif %}</div></section>
+{% schema %}{"name":"About the brand","settings":[{"type":"image_picker","id":"image","label":"Original brand artwork"}]}{% endschema %}

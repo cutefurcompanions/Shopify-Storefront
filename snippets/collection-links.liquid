@@ -1,0 +1,2 @@
+{% assign arctic_collection = settings.arctic_collection | default: collections['arctic'] %}
+{% if arctic_collection != blank %}<a href="{{ arctic_collection.url }}" data-cfc-region="arctic">Arctic</a>{% else %}<a href="{{ routes.all_products_collection_url }}" data-cfc-region="arctic">Arctic</a>{% endif %}

@@ -1,0 +1,46 @@
+<div class="cfc-ai-widget" data-cfc-ai-widget>
+  <button class="cfc-ai-fab" type="button" data-cfc-ai-toggle aria-expanded="false" aria-label="Open CuteFurCompanions shopping assistant">
+    {% if settings.ai_icon != blank %}
+      {{ settings.ai_icon | image_url: width: 80 | image_tag: loading: 'lazy', widths: '40,60,80', sizes: '40px', alt: '' }}
+    {% else %}
+      <img src="{{ 'chat-guide.png' | asset_url }}" alt="" width="44" height="44">
+    {% endif %}
+  </button>
+
+  <div class="cfc-ai-panel" data-cfc-ai-panel role="region" aria-label="Shopping assistant" hidden>
+    <div class="cfc-ai-panel__header">
+      <div>
+        <p class="cfc-eyebrow">CuteFurCompanions guide</p>
+        <h2>Shop the wild</h2>
+      </div>
+      <button class="cfc-icon-button" type="button" data-cfc-ai-close aria-label="Close assistant">×</button>
+    </div>
+
+    <div class="cfc-ai-panel__messages" data-cfc-ai-messages role="log" aria-live="polite" aria-relevant="additions">
+      <div class="cfc-ai-message cfc-ai-message--assistant">
+        Ask me about products, collections, sizing, the brand, shipping or try-on.
+      </div>
+    </div>
+
+    <div class="cfc-ai-panel__suggestions">
+      <button type="button" data-cfc-ai-suggestion="Show me Arctic wildlife.">Arctic wildlife</button>
+      <button type="button" data-cfc-ai-suggestion="What is in the flora category?">Flora</button>
+      <button type="button" data-cfc-ai-suggestion="How does AI try-on work?">Try-on</button>
+    </div>
+
+    <form class="cfc-ai-form" data-cfc-ai-form>
+      <input type="text" maxlength="300" autocomplete="off" placeholder="Ask about a piece…" aria-label="Ask the assistant">
+      <button type="submit" class="cfc-icon-button" aria-label="Send">↑</button>
+    </form>
+
+    {% unless settings.ai_enabled %}
+      <p class="cfc-ai-note">Live AI replies are currently unavailable. You can still search the shop.</p>
+    {% endunless %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "CFC — AI Assistant"
+}
+{% endschema %}

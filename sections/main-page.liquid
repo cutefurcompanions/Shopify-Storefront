@@ -1,0 +1,22 @@
+{% assign about_page = false %}
+{% if page.handle == 'about' or page.handle == 'about-us' or template.suffix == 'about' %}
+  {% assign about_page = true %}
+{% endif %}
+
+{% if about_page %}{% render 'brand-about' %}{% else %}
+<section class="cfc-page-section{% if about_page %} cfc-brand-page{% endif %}">
+  <div class="cfc-container">
+    <p class="cfc-eyebrow">{% if about_page %}The brand{% else %}CuteFurCompanions{% endif %}</p>
+    <h1>{{ page.title | escape }}</h1>
+    <div class="cfc-document-layout"><aside class="cfc-document-sidebar"><p class="cfc-eyebrow">Customer care</p>{% render 'service-navigation' %}</aside><div class="cfc-richtext cfc-page-copy cfc-document-body" data-cfc-document>
+      {{ page.content }}
+    </div></div>
+  </div>
+</section>
+
+{% endif %}
+{% schema %}
+{
+  "name": "CFC — Page"
+}
+{% endschema %}

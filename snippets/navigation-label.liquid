@@ -1,0 +1,12 @@
+{%- assign clean_label = title | strip -%}
+{%- assign normalized_label = clean_label | downcase -%}
+{%- if category_labels -%}
+  {%- assign normalized_label = normalized_label | remove_first: 'arctic ' -%}
+  {%- case normalized_label -%}
+    {%- when 'wildlife' -%}{%- assign clean_label = 'Wildlife' -%}
+    {%- when 'flora' -%}{%- assign clean_label = 'Flora' -%}
+    {%- when 'fauna' -%}{%- assign clean_label = 'Fauna' -%}
+    {%- when 'landscape', 'landscapes' -%}{%- assign clean_label = 'Landscapes' -%}
+  {%- endcase -%}
+{%- endif -%}
+{{- clean_label | escape -}}

@@ -1,0 +1,16 @@
+{% for link in menu.links %}
+  {% assign destination = link.url %}
+  {% if category_labels and link.url contains '/search' %}
+    {% assign category_key = link.title | downcase | remove_first: 'arctic ' | handleize %}
+    {% assign category_setting = category_key | append: '_collection' %}
+    {% assign regional_handle = 'arctic-' | append: category_key %}
+    {% assign resolved_category = settings[category_setting] | default: collections[category_key] | default: collections[regional_handle] %}
+    {% if resolved_category != blank %}{% assign destination = resolved_category.url %}{% else %}{% continue %}{% endif %}
+  {% endif %}
+  {% if link.links != blank %}
+    <details class="cfc-nav__dropdown"><summary>{% render 'navigation-label', title: link.title, category_labels: category_labels %}</summary><div class="cfc-nav__panel">
+      <a href="{{ destination }}">{% render 'navigation-label', title: link.title, category_labels: category_labels %}</a>
+      {% for child in link.links %}<a href="{{ child.url }}">{% render 'navigation-label', title: child.title, category_labels: category_labels %}</a>{% for grandchild in child.links %}<a href="{{ grandchild.url }}">{% render 'navigation-label', title: grandchild.title, category_labels: category_labels %}</a>{% endfor %}{% endfor %}
+    </div></details>
+  {% else %}<a href="{{ destination }}"{% if link.current %} aria-current="page"{% endif %}>{% render 'navigation-label', title: link.title, category_labels: category_labels %}</a>{% endif %}
+{% endfor %}

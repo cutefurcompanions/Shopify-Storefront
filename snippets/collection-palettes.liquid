@@ -1,0 +1,13 @@
+<style>
+html[data-cfc-theme="sahara"]{--cfc-theme-primary:#84521F;--cfc-theme-background:#FBF4E6;--cfc-theme-surface:#F0E1C4;--cfc-theme-accent:#E8D1A8;--cfc-theme-text:#302419;--cfc-theme-muted:#68553D}
+html[data-cfc-theme="antarctic"]{--cfc-theme-primary:#345B78;--cfc-theme-background:#F1F7FC;--cfc-theme-surface:#E1EDF5;--cfc-theme-accent:#C6DEED;--cfc-theme-text:#142C40;--cfc-theme-muted:#496477}
+{% for themed in collections %}
+{% assign palette_key = themed.metafields.cfc.theme_key.value | default: themed.handle | handleize %}
+{% if themed.metafields.cfc.theme_primary.type == 'color' and palette_key != 'brand' %}
+html[data-cfc-theme="{{ themed.metafields.cfc.theme_key.value | default: themed.handle | handleize }}"]{
+{% assign keys = 'primary,background,surface,accent,text,muted' | split: ',' %}
+{% for key in keys %}{% assign field = 'theme_' | append: key %}{% assign color = themed.metafields.cfc[field] %}{% if color.type == 'color' %}--cfc-theme-{{ key }}:{{ color.value }};{% endif %}{% endfor %}
+}
+{% endif %}
+{% endfor %}
+</style>

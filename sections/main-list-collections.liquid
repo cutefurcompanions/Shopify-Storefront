@@ -1,0 +1,35 @@
+<section class="cfc-page-section">
+  <div class="cfc-container">
+    <div class="cfc-section__head">
+      <div>
+        <p class="cfc-eyebrow">Explore</p>
+        <h1>Collections</h1>
+      </div>
+    </div>
+
+    {% paginate collections by 24 %}<div class="cfc-collection-list">
+      {% for item in collections %}
+        <a href="{{ item.url }}" class="cfc-category-card">
+          <div class="cfc-category-card__media">
+            {% if item.featured_image %}
+              {{ item.featured_image | image_url: width: 1000 | image_tag: loading: 'lazy', widths: '500,750,1000', sizes: '(min-width: 990px) 33vw, 100vw', alt: item.title }}
+            {% endif %}
+            <div class="cfc-category-card__veil"></div>
+          </div>
+          <div class="cfc-category-card__body">
+            <p class="cfc-eyebrow">Collection</p>
+            <h2>{{ item.title | escape }}</h2>
+            <p>{{ item.description | strip_html | truncate: 140 }}</p>
+            <span class="cfc-link">Explore →</span>
+          </div>
+        </a>
+      {% else %}<p>New collections are on their way.</p>{% endfor %}
+    </div>{% render 'pagination', paginate: paginate %}{% endpaginate %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CFC — Collection list"
+}
+{% endschema %}

@@ -1,0 +1,13 @@
+{% if menu.links != blank %}
+  {% render 'menu-links', menu: menu, category_labels: true %}
+{% else %}
+  {% assign handles = 'wildlife,flora,landscapes' | split: ',' %}
+  {% for handle in handles %}
+    {% assign setting_key = handle | append: '_collection' %}{% assign regional_handle = 'arctic-' | append: handle %}{% assign category = settings[setting_key] | default: collections[handle] | default: collections[regional_handle] %}
+    {% if handle == 'landscapes' and category == blank %}{% assign category = collections['landscape'] %}{% endif %}
+    <!-- Never substitute search for a category destination. -->
+    {% if category != blank %}<a href="{{ category.url }}">{{ handle | capitalize }}</a>{% endif %}
+  {% endfor %}
+  {% assign about = settings.about_page | default: pages['about'] | default: pages['about-us'] %}
+  {% if about != blank %}<a href="{{ about.url }}">About</a>{% endif %}
+{% endif %}

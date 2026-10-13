@@ -1,0 +1,15 @@
+{
+  "sections": {
+    "main": {
+      "type": "contact",
+      "settings": {
+        "heading": "Order support",
+        "order_support": true,
+        "intro": "Need help with an existing order? Share the details and we\u2019ll help you find the next step."
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

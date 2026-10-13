@@ -1,0 +1,49 @@
+<article class="cfc-product-card">
+  <a href="{{ product.url }}" class="cfc-product-card__media" aria-label="{{ product.title | escape }}">
+    {% if product.featured_image %}
+      {{ product.featured_image | image_url: width: 900 | image_tag:
+        loading: 'lazy',
+        widths: '360,540,720,900',
+        sizes: '(min-width: 990px) 25vw, 50vw',
+        alt: product.title,
+        class: 'cfc-product-card__image'
+      }}
+    {% else %}
+      <div class="cfc-media-placeholder">{{ 'product-1' | placeholder_svg_tag: 'cfc-placeholder-garment' }}<span>Image coming soon</span></div>
+    {% endif %}
+    {% if product.images[1] %}{{ product.images[1] | image_url: width: 900 | image_tag: loading: 'lazy', widths: '360,540,720,900', sizes: '(min-width: 990px) 25vw, 50vw', class: 'cfc-product-card__hover', alt: product.title }}{% endif %}
+    {% assign card_collection = product.metafields.cfc.theme_collection.value %}{% if card_collection != blank %}<span class="cfc-collection-badge">{{ card_collection.title | escape }}</span>{% endif %}
+    {% if product.compare_at_price > product.price %}
+      <span class="cfc-badge cfc-badge--floating">Sale</span>
+    {% endif %}
+  </a>
+
+  <div class="cfc-product-card__meta">
+    <div class="cfc-product-card__topline">
+      <div class="cfc-product-card__copy">
+
+        <h3 class="cfc-product-card__title"><a href="{{ product.url }}">{{ product.title | escape }}</a></h3>
+      </div>
+      <div class="cfc-product-card__price">
+        {% render 'price', product: product %}
+      </div>
+    </div>
+
+    {% render 'rating', product: product %}
+
+    <div class="cfc-product-card__actions">
+      <a class="cfc-link" href="{{ product.url }}">View piece ↗</a>
+      {% if product.available and product.has_only_default_variant and product.requires_selling_plan == false %}
+        <form method="post" action="{{ routes.cart_add_url }}" class="cfc-quick-add" data-cfc-quick-add>
+          <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+          <input type="hidden" name="quantity" value="1">
+          <button type="submit" class="cfc-icon-button" aria-label="Add {{ product.title | escape }} to cart">+</button>
+        </form>
+      {% elsif product.available %}
+        <a class="cfc-link" href="{{ product.url }}">Choose options</a>
+      {% else %}
+        <span class="cfc-sold-out">Sold out</span>
+      {% endif %}
+    </div>
+  </div>
+</article>

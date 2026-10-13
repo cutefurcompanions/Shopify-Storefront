@@ -1,0 +1,8 @@
+<section class="cfc-auth"><div class="cfc-auth__inner"><header class="cfc-auth__heading"><h1>Create an account</h1><p>Your next adventure starts here.</p></header><div class="cfc-auth__panel cfc-glass-panel">
+{% form 'create_customer', class: 'cfc-contact' %}{{ form.errors | default_errors }}
+<label>First name<input name="customer[first_name]" autocomplete="given-name" value="{{ form.first_name | escape }}" required></label>
+<label>Last name<input name="customer[last_name]" autocomplete="family-name" value="{{ form.last_name | escape }}" required></label>
+<label>Email<input type="email" name="customer[email]" autocomplete="email" value="{{ form.email | escape }}" placeholder="your@email.com" required></label>
+<label>Password<input type="password" name="customer[password]" autocomplete="new-password" required></label>
+<button class="cfc-button" type="submit">Create account</button>{% endform %}<div class="cfc-auth__links"><p>Already a member? <a href="{{ routes.account_login_url }}">Sign in</a></p></div>
+</div></div></section>

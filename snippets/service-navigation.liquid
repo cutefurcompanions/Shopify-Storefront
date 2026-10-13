@@ -1,0 +1,7 @@
+<nav class="cfc-service-links" aria-label="Customer care">
+<a href="{{ routes.all_products_collection_url }}">Continue shopping <span aria-hidden="true">↗</span></a>
+{% if shop.customer_accounts_enabled %}<a href="{{ routes.account_url }}">My account <span aria-hidden="true">↗</span></a>{% endif %}
+{% assign support_page = settings.contact_page | default: pages['talk-to-us'] | default: pages['contact'] %}
+{% if support_page != blank %}<a href="{{ support_page.url }}">Contact us <span aria-hidden="true">↗</span></a>{% endif %}
+{% for policy in shop.policies %}{% if policy.body != blank %}<a href="{{ policy.url }}">{{ policy.title | escape }}</a>{% endif %}{% endfor %}
+</nav>

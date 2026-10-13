@@ -1,0 +1,108 @@
+{% assign selected_variant = product.selected_or_first_available_variant %}
+<section class="cfc-page-section" data-cfc-product-details-root> 
+  <div class="cfc-container">
+    <div class="cfc-product-layout">
+      <div class="cfc-product-gallery">
+        <div class="cfc-product-gallery__main">
+          {% if product.media.size > 0 %}
+            {% for media in product.media %}
+              <div class="cfc-product-gallery__item{% if selected_variant.featured_media.id == media.id %} is-active{% elsif selected_variant.featured_media == blank and forloop.first %} is-active{% endif %}" data-cfc-media="{{ forloop.index0 }}">
+                {% if media.media_type == 'image' %}
+                  {% if forloop.first or selected_variant.featured_media.id == media.id %}
+                    {{ media | image_url: width: 1400 | image_tag: loading: 'eager', widths: '700,1000,1400', sizes: '(min-width: 990px) 55vw, 100vw', alt: product.title }}
+                  {% else %}
+                    {{ media | image_url: width: 1400 | image_tag: loading: 'lazy', widths: '700,1000,1400', sizes: '(min-width: 990px) 55vw, 100vw', alt: product.title }}
+                  {% endif %}
+                {% elsif media.media_type == 'video' %}
+                  {{ media | video_tag: controls: true, muted: true, loop: true }}
+                {% else %}
+                  {{ media | media_tag }}
+                {% endif %}
+              </div>
+            {% endfor %}
+          {% elsif product.featured_image %}
+            {{ product.featured_image | image_url: width: 1400 | image_tag: loading: 'eager', widths: '700,1000,1400', sizes: '(min-width: 990px) 55vw, 100vw', alt: product.title }}
+          {% else %}<div class="cfc-media-placeholder">{{ 'product-1' | placeholder_svg_tag: 'cfc-placeholder-garment' }}<span>Imagery coming soon</span></div>{% endif %}
+        </div>
+
+        {% if product.media.size > 1 %}
+          <div class="cfc-product-gallery__thumbs">
+            {% for media in product.media %}
+              <button type="button" class="cfc-gallery-thumb{% if selected_variant.featured_media.id == media.id %} is-active{% elsif selected_variant.featured_media == blank and forloop.first %} is-active{% endif %}" data-cfc-gallery-thumb="{{ forloop.index0 }}" aria-label="View image {{ forloop.index }}">
+                {{ media.preview_image | image_url: width: 180 | image_tag: loading: 'lazy', widths: '90,120,180', sizes: '90px', alt: product.title }}
+              </button>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="cfc-product-info" data-cfc-product-info><div class="cfc-product-purchase cfc-glass-panel">
+        <h1>{{ product.title | escape }}</h1>
+
+        <div class="cfc-product-price" data-cfc-live-price>{% if selected_variant %}{{ selected_variant.price | money }} {% if selected_variant.compare_at_price > selected_variant.price %}<s>{{ selected_variant.compare_at_price | money }}</s>{% endif %}{% else %}Unavailable combination{% endif %}</div>
+
+        {% render 'rating', product: product %}
+        {% if product.description != blank %}<div class="cfc-product-intro cfc-richtext" data-cfc-product-description>{{ product.description }}</div>{% endif %}
+        {% unless product.has_only_default_variant %}
+        {% capture selected_ids_string %}{% for current_option in product.options_with_values %}{% unless forloop.first %},{% endunless %}{% for current_value in current_option.values %}{% if current_value.selected %}{{ current_value.id }}{% break %}{% endif %}{% endfor %}{% endfor %}{% endcapture %}
+        {% assign selected_ids = selected_ids_string | split: ',' %}
+        <div class="cfc-product-options">
+        {% for option in product.options_with_values %}
+          {% if option.values.size > 1 %}<fieldset class="cfc-option"><legend>{{ option.name | escape }}</legend><div class="cfc-option__values">
+          {% for value in option.values %}
+            {% capture option_ids %}{% for other in product.options_with_values %}{% unless forloop.first %},{% endunless %}{% if other.position == option.position %}{{ value.id }}{% else %}{% assign other_index = other.position | minus: 1 %}{{ selected_ids[other_index] }}{% endif %}{% endfor %}{% endcapture %}
+            <a class="cfc-choice-link{% if value.selected %} is-selected{% endif %}" href="{% if value.product_url != blank and value.product_url != product.url %}{{ value.product_url }}{% else %}{{ product.url }}?option_values={{ option_ids | strip | escape }}{% endif %}"{% if value.selected %} aria-current="true"{% endif %}>{{ value | escape }}{% unless value.available %}<span class="visually-hidden"> — currently unavailable</span>{% endunless %}</a>
+          {% endfor %}</div></fieldset>{% endif %}
+        {% endfor %}</div>{% endunless %}
+        {% assign product_form_id = 'cfc-product-form-' | append: section.id %}
+        {% form 'product', product, id: product_form_id, class: 'cfc-product-form', data-cfc-product-form: '' %}
+          {{ form.errors | default_errors }}
+          <input type="hidden" name="id" value="{{ selected_variant.id }}">
+          {% if product.selling_plan_groups.size > 0 %}<label>Purchase option<select name="selling_plan"{% if product.requires_selling_plan %} required{% endif %}>{% unless product.requires_selling_plan %}<option value="">One-time purchase</option>{% endunless %}{% for allocation in selected_variant.selling_plan_allocations %}<option value="{{ allocation.selling_plan.id }}" data-price="{{ allocation.price | money | escape }}">{{ allocation.selling_plan.name | escape }} — {{ allocation.price | money }}</option>{% endfor %}</select></label>{% endif %}
+          <div class="cfc-buy-row"><label class="cfc-quantity"><span>Qty</span><input type="number" name="quantity" value="{{ selected_variant.quantity_rule.min | default: 1 }}" min="{{ selected_variant.quantity_rule.min | default: 1 }}" step="{{ selected_variant.quantity_rule.increment | default: 1 }}"{% if selected_variant.quantity_rule.max %} max="{{ selected_variant.quantity_rule.max }}"{% endif %} required></label><button type="submit" class="cfc-button cfc-button--large"{% unless selected_variant.available %} disabled{% endunless %}>{% if selected_variant.available %}Add to cart{% else %}Unavailable{% endif %}</button></div>
+          <p data-cfc-form-status role="status"></p>
+        {% endform %}
+        <a class="cfc-button cfc-button--secondary cfc-view-cart" href="{{ routes.cart_url }}">View cart</a></div>
+        <div class="cfc-product-accordions"><details class="cfc-product-details"><summary>Shipping &amp; returns</summary><p>Shipping and taxes are calculated by Shopify at checkout.</p>{% if shop.shipping_policy.body != blank %}<a class="cfc-link" href="{{ shop.shipping_policy.url }}">Shipping policy</a>{% endif %} {% if shop.refund_policy.body != blank %}<a class="cfc-link" href="{{ shop.refund_policy.url }}">Refund policy</a>{% endif %}</details>
+        
+        <div data-cfc-description-sections></div>
+      </div>
+      </div>
+    </div>
+
+    <div class="cfc-reviews-section">
+      <div class="cfc-section__head">
+        <div>
+          <p class="cfc-eyebrow">Customer notes</p>
+          <h2>Reviews</h2>
+        </div>
+
+      </div>
+
+      <div class="cfc-review-grid{% if section.blocks.size == 0 %} cfc-review-grid--empty{% endif %}">
+        <div class="cfc-review-summary">
+          {% render 'rating', product: product %}
+          {% if section.blocks.size == 0 %}<p>No customer reviews to display yet.</p>{% endif %}{% if shop.customer_accounts_enabled and customer == blank %}<p><a class="cfc-link" href="{{ routes.account_login_url }}">Sign in to your customer account</a> before submitting a review.</p>{% endif %}{% if request.design_mode %}<p>Add your review app block. Configure authenticated submission in the app.</p>{% endif %}
+        </div>
+        <div class="cfc-review-apps">
+          {% for block in section.blocks %}
+            {% if block.type == '@app' %}
+              {% render block %}
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CFC — Product",
+  "settings": [],
+  "blocks": [
+    { "type": "@app" }
+  ]
+}
+{% endschema %}

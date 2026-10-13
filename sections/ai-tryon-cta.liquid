@@ -1,0 +1,27 @@
+<section class="cfc-section">
+  <div class="cfc-container">
+    <div class="cfc-feature-panel">
+      <div class="cfc-feature-panel__copy">
+        <p class="cfc-eyebrow">AI try-on</p>
+        <h2>{{ section.settings.heading | escape }}</h2>
+        <p>{{ section.settings.text }}</p>
+      </div>
+      <a class="cfc-button" href="{{ section.settings.link | default: routes.all_products_collection_url }}">{{ section.settings.button }}</a>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CFC — AI try-on CTA",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "See it on you first." },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "Explore a product to see whether its try-on visualization is available." },
+    { "type": "text", "id": "button", "label": "Button", "default": "Explore pieces" },
+    { "type": "url", "id": "link", "label": "Link" }
+  ],
+  "presets": [
+    { "name": "CFC — AI try-on CTA" }
+  ]
+}
+{% endschema %}

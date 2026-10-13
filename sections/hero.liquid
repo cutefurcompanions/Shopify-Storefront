@@ -1,0 +1,58 @@
+{% assign featured_collection = section.settings.collection %}
+{% assign hero_image = section.settings.image | default: featured_collection.image %}
+<section class="cfc-hero">
+  <div class="cfc-hero__media">{% if hero_image %}{{ hero_image | image_url: width: 2200 | image_tag: loading: 'eager', fetchpriority: 'high', widths: '750,1100,1600,2200', sizes: '100vw', alt: section.settings.image_alt }}{% else %}<img src="{{ 'scene-arctic.jpg' | asset_url }}" width="1800" height="1100" alt="Icebergs in calm Arctic water" fetchpriority="high" loading="eager">{% endif %}<div class="cfc-hero__overlay"></div></div>
+  <div class="cfc-container cfc-hero__content"><h1>{{ section.settings.heading | escape }}</h1><p>{{ section.settings.subheading | escape }}</p><a class="cfc-button cfc-button--glass" href="{{ section.settings.button_link | default: featured_collection.url | default: routes.all_products_collection_url }}">{{ section.settings.button_label | escape }} <span aria-hidden="true">→</span></a></div>
+</section>
+
+{% schema %}
+{
+  "name": "Collection hero",
+  "settings": [
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Featured collection"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Hero image"
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "Image description",
+      "default": "Arctic iceberg in calm water"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Arctic"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Description",
+      "default": "Wildlife, flora and landscapes of the far north."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Explore the Collection"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection hero"
+    }
+  ]
+}
+{% endschema %}

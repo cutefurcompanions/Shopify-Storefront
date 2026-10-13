@@ -1,0 +1,7 @@
+{% if product.compare_at_price > product.price %}<s>{{ product.compare_at_price | money }}</s> {% endif %}
+{% if product.price_varies %}From 
+  <span>{{ product.price_min | money }}</span>
+  <span class="cfc-price-range">– {{ product.price_max | money }}</span>
+{% else %}
+  <span>{{ product.price | money }}</span>
+{% endif %}

@@ -1,0 +1,11 @@
+{
+  "sections": {
+    "main": {
+      "type": "try-on-studio",
+      "settings": {}
+    }
+  },
+  "order": [
+    "main"
+  ]
+}
