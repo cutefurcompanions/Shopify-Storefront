@@ -66,6 +66,38 @@
         "type": "shopify://apps/judge-me-reviews/blocks/judgeme_core/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
         "disabled": false,
         "settings": {}
+      },
+      "5670284798300706599": {
+        "type": "shopify://apps/accofy/blocks/app-embed/019a7324-9ab3-7598-985b-360294d22119",
+        "disabled": false,
+        "settings": {}
+      },
+      "11349500561483629931": {
+        "type": "shopify://apps/notify-me/blocks/app-embed/b399b727-6c85-44fc-9e21-63114bd72054",
+        "disabled": false,
+        "settings": {}
+      },
+      "6174324309569838175": {
+        "type": "shopify://apps/smile-io/blocks/smile-shopify-app/2fae4e25-1841-4ea2-bc02-bd548478c4f6",
+        "disabled": false,
+        "settings": {}
+      },
+      "776830982265093320": {
+        "type": "shopify://apps/accofy/blocks/cart-sync/019a7324-9ab3-7598-985b-360294d22119",
+        "disabled": false,
+        "settings": {}
+      },
+      "15321929334008590872": {
+        "type": "shopify://apps/accofy/blocks/quick-dashboard/019a7324-9ab3-7598-985b-360294d22119",
+        "disabled": false,
+        "settings": {}
+      },
+      "13047258039897440615": {
+        "type": "shopify://apps/judge-me-reviews/blocks/cart_drawer_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+        "disabled": false,
+        "settings": {
+          "widget_type": "review-widget"
+        }
       }
     }
   },
