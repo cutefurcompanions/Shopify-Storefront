@@ -8,29 +8,18 @@
       <details class="cfc-nav__dropdown"><summary>Collections <span aria-hidden="true">⌄</span></summary><div class="cfc-nav__panel"><p class="cfc-eyebrow">Explore a collection</p>{% render 'collection-links' %}</div></details>
     </nav>
     <div class="cfc-header__actions">
-      <a href="{{ routes.search_url }}" class="cfc-icon-button" aria-label="Search">{% render 'icon', name: 'search' %}</a>
       <a href="{{ routes.cart_url }}" class="cfc-cart-button" data-cfc-cart-open aria-label="Open cart">{% render 'icon', name: 'bag' %}<span class="cfc-desktop-only">Cart</span><span class="cfc-cart-count" data-cfc-cart-count>{{ cart.item_count }}</span></a>
       {% if shop.customer_accounts_enabled %}<a class="cfc-icon-button cfc-account-link" href="{{ routes.account_url }}" aria-label="Your account">{% render 'icon', name: 'account' %}</a>{% endif %}
       <details class="cfc-mobile-nav cfc-mobile-only" data-cfc-mobile-nav><summary class="cfc-icon-button" aria-label="Open navigation">{% render 'icon', name: 'menu' %}</summary><nav aria-label="Mobile navigation">{% render 'category-navigation', menu: section.settings.menu %}<details><summary>Collections</summary>{% render 'collection-links' %}</details><a href="{{ routes.all_products_collection_url }}">Shop all</a>{% if shop.customer_accounts_enabled %}<a href="{{ routes.account_url }}">My account</a>{% endif %}</nav></details>
     </div>
   </div>
 </header>
-
 {% schema %}
 {
   "name": "Header",
   "settings": [
-    {
-      "type": "image_picker",
-      "id": "logo",
-      "label": "Custom header logo"
-    },
-    {
-      "type": "link_list",
-      "id": "menu",
-      "label": "Category and About menu",
-      "info": "Leave blank for Wildlife, Flora and Landscapes links."
-    }
+    {"type": "image_picker", "id": "logo", "label": "Custom header logo"},
+    {"type": "link_list", "id": "menu", "label": "Category and About menu", "info": "Leave blank to use available category collections automatically."}
   ]
 }
 {% endschema %}

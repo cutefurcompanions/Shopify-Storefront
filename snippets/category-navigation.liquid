@@ -4,11 +4,7 @@
   {% assign regional_handle = 'arctic-' | append: handle %}
   {% assign category = settings[setting_key] | default: collections[handle] | default: collections[regional_handle] %}
   {% if handle == 'landscapes' and category == blank %}{% assign category = collections['landscape'] %}{% endif %}
-  {% if category != blank %}
-    <a href="{{ category.url }}">{{ handle | capitalize }}</a>
-  {% else %}
-    <a href="{{ routes.all_products_collection_url }}?q={{ handle | url_encode }}">{{ handle | capitalize }}</a>
-  {% endif %}
+  {% if category != blank %}<a href="{{ category.url }}">{{ handle | capitalize }}</a>{% endif %}
 {% endfor %}
 {% assign about = settings.about_page | default: pages['about'] | default: pages['about-us'] %}
 {% if about != blank %}<a href="{{ about.url }}">About</a>{% endif %}
