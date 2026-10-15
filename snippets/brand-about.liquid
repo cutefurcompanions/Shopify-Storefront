@@ -1,1 +1,20 @@
-<section class="cfc-about cfc-brand-page cfc-about--identity" aria-label="About CuteFurCompanions"><h1 class="visually-hidden">CuteFurCompanions</h1><div class="cfc-about__art">{% render 'brand', full: true %}</div></section>
+<section class="cfc-about cfc-brand-page cfc-about--identity" aria-label="About CuteFurCompanions">
+  <div class="cfc-container cfc-about__inner">
+    <div class="cfc-about__art">
+      {% if image != blank %}
+        {{ image | image_url: width: 1200 | image_tag: widths: '450,900,1200', sizes: '(min-width: 750px) 42vw, 85vw', loading: 'eager', alt: shop.name }}
+      {% else %}
+        {% render 'brand', full: true %}
+      {% endif %}
+    </div>
+    <div class="cfc-about__copy">
+      <p class="cfc-eyebrow">The wild, made wearable</p>
+      <h1>About CuteFurCompanions</h1>
+      <div class="cfc-richtext">
+        <p>At CuteFurCompanions, we turn the world’s wildest places into something you can wear. Each collection explores a different realm, from the Arctic and Antarctic to deserts, rainforests and beyond, through wildlife, flora and landscapes.</p>
+        <p>Our hope is simple: when you wear a piece from one of these realms, you carry a little part of that place with you, spark curiosity, and perhaps help someone discover a corner of the world they have not seen before.</p>
+      </div>
+      <p class="cfc-brand-motto">We give you the biome to wear.</p>
+    </div>
+  </div>
+</section>

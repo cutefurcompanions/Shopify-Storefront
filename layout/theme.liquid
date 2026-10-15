@@ -1,39 +1,34 @@
-    {% liquid
-      assign cfc_collection = nil
-      assign cfc_theme_explicit = false
-      if collection != blank
-      if collection.handle == 'arctic' or collection.handle == 'sahara' or collection.handle == 'antarctic' or collection.metafields.cfc.theme_key.value != blank or collection.metafields.cfc.theme_primary.type == 'color'
-        assign cfc_collection = collection
-        assign cfc_theme_explicit = true
-      endif
-      endif
-      assign cfc_brand_page = false
-      if template.suffix == 'about' or page.handle == 'about' or page.handle == 'about-us'
-        assign cfc_brand_page = true
-      endif
-      if cfc_theme_explicit == false and product != blank and product.metafields.cfc.theme_collection.value != blank
-        assign cfc_collection = product.metafields.cfc.theme_collection.value
-        assign cfc_theme_explicit = true
-      endif
-
-      assign cfc_theme_key = ''
-
-      if cfc_theme_explicit
-        assign cfc_theme_key = cfc_collection.metafields.cfc.theme_key.value | default: cfc_collection.handle | handleize
-
-      endif
-
-      if cfc_theme_key == 'brand' and cfc_brand_page == false
-        assign cfc_theme_key = settings.default_collection_theme
-      endif
-      if cfc_theme_key == blank
-        assign cfc_theme_key = settings.default_collection_theme
-      endif
-      if cfc_brand_page
-        assign cfc_theme_key = 'brand'
-      endif
-    %}
-
+{% liquid
+  assign cfc_collection = nil
+  assign cfc_theme_explicit = false
+  if collection != blank
+    if collection.handle == 'arctic' or collection.handle == 'sahara' or collection.handle == 'antarctic' or collection.metafields.cfc.theme_key.value != blank or collection.metafields.cfc.theme_primary.type == 'color'
+      assign cfc_collection = collection
+      assign cfc_theme_explicit = true
+    endif
+  endif
+  assign cfc_brand_page = false
+  if template.suffix == 'about' or page.handle == 'about' or page.handle == 'about-us'
+    assign cfc_brand_page = true
+  endif
+  if cfc_theme_explicit == false and product != blank and product.metafields.cfc.theme_collection.value != blank
+    assign cfc_collection = product.metafields.cfc.theme_collection.value
+    assign cfc_theme_explicit = true
+  endif
+  assign cfc_theme_key = ''
+  if cfc_theme_explicit
+    assign cfc_theme_key = cfc_collection.metafields.cfc.theme_key.value | default: cfc_collection.handle | handleize
+  endif
+  if cfc_theme_key == 'brand' and cfc_brand_page == false
+    assign cfc_theme_key = settings.default_collection_theme
+  endif
+  if cfc_theme_key == blank
+    assign cfc_theme_key = settings.default_collection_theme
+  endif
+  if cfc_brand_page
+    assign cfc_theme_key = 'brand'
+  endif
+%}
 <!doctype html>
 <html lang="{{ request.locale.iso_code }}" data-cfc-theme="{{ cfc_theme_key | handleize }}" data-cfc-brand-page="{{ cfc_brand_page }}" data-cfc-page="{{ request.page_type }}">
   <head>
@@ -42,88 +37,33 @@
     <meta name="theme-color" content="{{ settings.brand_text }}">
     <link rel="icon" type="image/svg+xml" href="{{ 'brand-favicon.svg' | asset_url }}">
     <link rel="canonical" href="{{ canonical_url }}">
-
-    {% if page_description %}
-      <meta name="description" content="{{ page_description | escape }}">
-    {% endif %}
-
+    {% if page_description %}<meta name="description" content="{{ page_description | escape }}">{% endif %}
     {% render 'seo' %}
-
     {{ 'theme.css' | asset_url | stylesheet_tag }}
+    {{ 'cfc-refinements.css' | asset_url | stylesheet_tag }}
     {% render 'fonts' %}
-
-    <title>{{ page_title | escape }}{% unless page_title contains shop.name %} — {{ shop.name | escape }}{% endunless %}</title>
+    <title>{{ page_title | escape }}{% unless page_title contains shop.name %} · {{ shop.name | escape }}{% endunless %}</title>
     {{ content_for_header }}
-
     <style>
-      :root {
-        --cfc-brand-primary: {{ settings.brand_primary }};
-        --cfc-brand-background: {{ settings.brand_background }};
-        --cfc-brand-surface: {{ settings.brand_surface }};
-        --cfc-brand-text: {{ settings.brand_text }};
-        --cfc-brand-muted: {{ settings.brand_muted }};
-        --cfc-brand-border: {{ settings.brand_border }};
-        --cfc-brand-accent: {{ settings.brand_accent }};
-      }
-
-      html[data-cfc-theme="arctic"] {
-        --cfc-theme-primary: {{ settings.arctic_primary }};
-        --cfc-theme-background: {{ settings.arctic_background }};
-        --cfc-theme-surface: {{ settings.arctic_surface }};
-        --cfc-theme-accent: {{ settings.arctic_accent }};
-        --cfc-theme-text: {{ settings.arctic_text }};
-        --cfc-theme-muted: {{ settings.arctic_muted }};
-        --cfc-theme-shadow: rgba(45, 91, 121, .14);
-      }
-
-      html[data-cfc-theme="brand"],
-      html[data-cfc-page="page"] body.cfc-about-page {
-        --cfc-theme-primary: var(--cfc-brand-primary);
-        --cfc-theme-background: var(--cfc-brand-background);
-        --cfc-theme-surface: var(--cfc-brand-surface);
-        --cfc-theme-accent: var(--cfc-brand-accent);
-        --cfc-theme-text: var(--cfc-brand-text);
-        --cfc-theme-muted: var(--cfc-brand-muted);
-        --cfc-theme-shadow: rgba(20, 26, 34, .08);
-      }
+      :root{--cfc-brand-primary:{{ settings.brand_primary }};--cfc-brand-background:{{ settings.brand_background }};--cfc-brand-surface:{{ settings.brand_surface }};--cfc-brand-text:{{ settings.brand_text }};--cfc-brand-muted:{{ settings.brand_muted }};--cfc-brand-border:{{ settings.brand_border }};--cfc-brand-accent:{{ settings.brand_accent }}}
+      html[data-cfc-theme="arctic"]{--cfc-theme-primary:{{ settings.arctic_primary }};--cfc-theme-background:{{ settings.arctic_background }};--cfc-theme-surface:{{ settings.arctic_surface }};--cfc-theme-accent:{{ settings.arctic_accent }};--cfc-theme-text:{{ settings.arctic_text }};--cfc-theme-muted:{{ settings.arctic_muted }};--cfc-theme-shadow:rgba(45,91,121,.14)}
+      html[data-cfc-theme="brand"],html[data-cfc-page="page"] body.cfc-about-page{--cfc-theme-primary:var(--cfc-brand-primary);--cfc-theme-background:var(--cfc-brand-background);--cfc-theme-surface:var(--cfc-brand-surface);--cfc-theme-accent:var(--cfc-brand-accent);--cfc-theme-text:var(--cfc-brand-text);--cfc-theme-muted:var(--cfc-brand-muted);--cfc-theme-shadow:rgba(20,26,34,.08)}
     </style>
     {% render 'collection-palettes' %}
-
     <script>
-      window.CFC = {
-        shopCurrency: {{ localization.country.currency.iso_code | json }},
-        root: {{ routes.root_url | json }},
-        cartUrl: {{ routes.cart_url | json }},
-        aiEndpoint: {{ settings.ai_endpoint | json }},
-        aiEnabled: {{ settings.ai_enabled | json }},
-        tryOnEndpoint: {{ settings.try_on_endpoint | json }},
-        tryOnEnabled: {{ settings.try_on_enabled | json }},
-        theme: {{ cfc_theme_key | default: settings.default_collection_theme | json }},
-        themeExplicit: {% if cfc_theme_explicit %}true{% else %}false{% endif %},
-        pageType: {{ request.page_type | json }},
-        collectionHandle: {{ collection.handle | default: '' | json }},
-        productHandle: {{ product.handle | default: '' | json }}
-      };
+      window.CFC={shopCurrency:{{ localization.country.currency.iso_code | json }},root:{{ routes.root_url | json }},cartUrl:{{ routes.cart_url | json }},aiEndpoint:{{ settings.ai_endpoint | json }},aiEnabled:{{ settings.ai_enabled | json }},tryOnEndpoint:{{ settings.try_on_endpoint | json }},tryOnEnabled:{{ settings.try_on_enabled | json }},theme:{{ cfc_theme_key | default: settings.default_collection_theme | json }},themeExplicit:{% if cfc_theme_explicit %}true{% else %}false{% endif %},pageType:{{ request.page_type | json }},collectionHandle:{{ collection.handle | default: '' | json }},productHandle:{{ product.handle | default: '' | json }}};
     </script>
   </head>
-
   <body class="cfc-page-{{ request.page_type | handleize }}{% if cfc_brand_page %} cfc-about-page{% endif %}">
     <a class="cfc-skip-link" href="#MainContent">Skip to content</a>
-
     {% sections 'header-group' %}
-
     <main id="MainContent" role="main">
       {{ content_for_layout }}
       {% if request.page_type == 'policy' %}<div class="cfc-container cfc-policy-navigation">{% render 'service-navigation' %}</div>{% endif %}
     </main>
-
     {% sections 'footer-group' %}
     {% section 'cart-drawer' %}
-    
-
-
     <script src="{{ 'content-layout.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'theme.js' | asset_url }}" defer="defer"></script>
-
   </body>
 </html>

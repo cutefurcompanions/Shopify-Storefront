@@ -1,40 +1,66 @@
-<section class="cfc-support-page"><div class="cfc-support-card"><div class="cfc-support-intro"><div><h1>{{ page.title | default: section.settings.heading | escape }}</h1><div class="cfc-richtext">{% if page.content != blank %}{{ page.content }}{% else %}<p>{{ section.settings.intro | escape }}</p>{% endif %}</div></div><div class="cfc-support-note">{% if section.settings.order_support %}<p>Please include your order number so we can find your order quickly.</p>{% elsif section.settings.email != blank %}<p class="cfc-eyebrow">Prefer email?</p><a href="mailto:{{ section.settings.email | escape }}">{{ section.settings.email | escape }}</a>{% else %}<p>A question about a piece, an idea, or a hello — you’re in the right place.</p>{% endif %}</div></div><div class="cfc-support-form">
-{% form 'contact', class: 'cfc-contact' %}
-{% if form.posted_successfully? %}<div class="cfc-form-success" role="status"><span aria-hidden="true">✓</span><h2>Message sent.</h2><p>Thank you for reaching out. Your message is with our team.</p></div>{% else %}
-{{ form.errors | default_errors }}
-{% if section.settings.order_support %}<label>Order number<input name="contact[Order number]" placeholder="#1001" required value="{{ form['Order number'] | escape }}"></label>{% else %}<label>Name<input name="contact[name]" autocomplete="name" placeholder="Your name" value="{{ form.name | default: customer.name | escape }}" required></label>{% endif %}
-<label>{% if section.settings.order_support %}Email used for the order{% else %}Email{% endif %}<input type="email" name="contact[email]" autocomplete="email" placeholder="your@email.com" value="{{ form.email | default: customer.email | escape }}" required></label>
-<label>What can we help with?<select name="contact[Topic]" required><option value="">Select a topic</option>{% if section.settings.order_support %}<option>Delivery or tracking</option><option>Change or cancel an order</option><option>Damaged or incorrect item</option><option>Return or exchange</option>{% else %}<option>General question</option><option>Product question</option><option>Collaboration</option><option>Feedback</option>{% endif %}<option>Something else</option></select></label>
-<label>Message<textarea name="contact[body]" rows="5" placeholder="Tell us what’s on your mind…" required>{{ form.body | escape }}</textarea></label><button class="cfc-button" type="submit">{% if section.settings.order_support %}Send request{% else %}Send message{% endif %}</button>{% endif %}{% endform %}
-</div></div><div class="cfc-support-navigation">{% render 'service-navigation' %}</div></section>
-
+<section class="cfc-support-page">
+  <div class="cfc-support-card">
+    <div class="cfc-support-intro">
+      <div>
+        <p class="cfc-eyebrow">Customer care</p>
+        <h1>{{ page.title | default: section.settings.heading | escape }}</h1>
+        <div class="cfc-richtext">{% if page.content != blank %}{{ page.content }}{% else %}<p>{{ section.settings.intro | escape }}</p>{% endif %}</div>
+      </div>
+      <div class="cfc-support-note">
+        {% if section.settings.order_support %}
+          <p>Please include your order number so we can find your order quickly.</p>
+        {% elsif section.settings.email != blank %}
+          <p class="cfc-eyebrow">Prefer email?</p>
+          <a href="mailto:{{ section.settings.email | escape }}">{{ section.settings.email | escape }}</a>
+        {% else %}
+          <p>A question about a piece, an idea, or a hello; you are in the right place.</p>
+        {% endif %}
+      </div>
+    </div>
+    <div class="cfc-support-form">
+      {% if customer %}
+        <p class="cfc-eyebrow">Verified customer support</p>
+        {% form 'contact', class: 'cfc-contact' %}
+          {% if form.posted_successfully? %}
+            <div class="cfc-form-success" role="status"><span aria-hidden="true">✓</span><h2>Message sent.</h2><p>Thank you for reaching out. Your message is with our team.</p></div>
+          {% else %}
+            {{ form.errors | default_errors }}
+            {% if section.settings.order_support %}
+              <label>Order number<input name="contact[Order number]" placeholder="#1001" required value="{{ form['Order number'] | escape }}"></label>
+            {% else %}
+              <label>Name<input name="contact[name]" autocomplete="name" placeholder="Your name" value="{{ form.name | default: customer.name | escape }}" required></label>
+            {% endif %}
+            <label>{% if section.settings.order_support %}Email used for the order{% else %}Email{% endif %}<input type="email" name="contact[email]" autocomplete="email" placeholder="your@email.com" value="{{ form.email | default: customer.email | escape }}" required></label>
+            <label>What can we help with?<select class="cfc-themed-select" name="contact[Topic]" required><option value="">Select a topic</option>{% if section.settings.order_support %}<option>Delivery or tracking</option><option>Change or cancel an order</option><option>Damaged or incorrect item</option><option>Return or exchange</option>{% else %}<option>General question</option><option>Product question</option><option>Collaboration</option><option>Feedback</option>{% endif %}<option>Something else</option></select></label>
+            <label>Message<textarea name="contact[body]" rows="5" placeholder="Tell us what is on your mind…" required>{{ form.body | escape }}</textarea></label>
+            <button class="cfc-button" type="submit">{% if section.settings.order_support %}Send request{% else %}Send message{% endif %}</button>
+          {% endif %}
+        {% endform %}
+      {% else %}
+        <div class="cfc-contact-auth">
+          <p class="cfc-eyebrow">Verified customer support</p>
+          <h2>Sign in to send a message</h2>
+          <p>Your customer account verifies the email connected to your message and keeps your order details private.</p>
+          {% if shop.customer_accounts_enabled %}
+            <a class="cfc-button" href="{{ routes.account_login_url }}?return_url={{ page.url | url_encode }}">Sign in securely</a>
+            <p class="cfc-contact-auth__register">New here? <a class="cfc-link" href="{{ routes.account_register_url }}">Create an account</a></p>
+          {% else %}
+            <p class="cfc-contact-auth__notice">Customer accounts must be enabled in Shopify before verified contact messages can be accepted.</p>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+  <div class="cfc-support-navigation">{% render 'service-navigation' %}</div>
+</section>
 {% schema %}
 {
   "name": "Contact and support",
   "settings": [
-    {
-      "type": "text",
-      "id": "heading",
-      "label": "Heading",
-      "default": "Talk to us"
-    },
-    {
-      "type": "textarea",
-      "id": "intro",
-      "label": "Introduction",
-      "default": "Have a question, idea, or just want to say hello? We\u2019d love to hear from you."
-    },
-    {
-      "type": "text",
-      "id": "email",
-      "label": "Public support email"
-    },
-    {
-      "type": "checkbox",
-      "id": "order_support",
-      "label": "Order support form",
-      "default": false
-    }
+    {"type": "text", "id": "heading", "label": "Heading", "default": "Talk to us"},
+    {"type": "textarea", "id": "intro", "label": "Introduction", "default": "Have a question, idea, or just want to say hello? We would love to hear from you."},
+    {"type": "text", "id": "email", "label": "Public support email"},
+    {"type": "checkbox", "id": "order_support", "label": "Order support form", "default": false}
   ]
 }
 {% endschema %}
